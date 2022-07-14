@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import {
 	Box,
 	Button,
@@ -12,6 +12,7 @@ import { SunIcon, MoonIcon } from '@chakra-ui/icons';
 
 const LayoutWrapper = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
+	const navigate = useNavigate();
 
 	return (
 		<>
@@ -22,7 +23,11 @@ const LayoutWrapper = () => {
 				bgColor={colorMode === 'light' ? 'white' : 'custom_blue.100'}>
 				<Container maxW='container.lg'>
 					<Flex align='center'>
-						<Heading as='h1' size={['sm', 'md']}>
+						<Heading
+							as='h1'
+							size={['sm', 'md']}
+							cursor='pointer'
+							onClick={() => navigate('/')}>
 							Where in the world?
 						</Heading>
 
