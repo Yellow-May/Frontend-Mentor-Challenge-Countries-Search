@@ -74,7 +74,7 @@ const Country = () => {
 							</Grid>
 						</VStack>
 
-						<Box mt={[0, 12, 14, 20]}>
+						<Box mt={[12, 12, 14, 20]}>
 							<Feature
 								title='Border Countries'
 								desc={['France', 'Germany', 'Netherlands']}
