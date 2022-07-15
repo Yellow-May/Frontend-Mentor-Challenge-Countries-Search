@@ -6,7 +6,7 @@ const apiRouter = require('./apis');
 const app = express();
 
 // custom api router
-app.get('/api', apiRouter);
+app.use('/api', apiRouter);
 
 // serve static files
 if (process.env.NODE_ENV === 'production') {
