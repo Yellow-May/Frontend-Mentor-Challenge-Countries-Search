@@ -46,7 +46,15 @@ apiRouter.get('/countries', async (req, res) => {
 		const currPage = parseInt(req.query.currPage) || 0;
 		const pageSize = 10;
 
-		const section = countries.slice(currPage, currPage + pageSize);
+		const section = countries
+			.slice(currPage, currPage + pageSize)
+			.map(country => ({
+				name: country.name.official,
+				flag: country.flags?.png,
+				population: country.population.toLocaleString(),
+				region: country.region,
+				capital: country?.capital[0],
+			}));
 
 		const nextId =
 			currPage < countries.length ? section[section.length - 1].id : null;
