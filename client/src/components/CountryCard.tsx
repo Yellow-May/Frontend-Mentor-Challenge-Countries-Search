@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { useNavigate } from 'react-router';
 import {
 	AspectRatio,
@@ -9,7 +10,21 @@ import {
 } from '@chakra-ui/react';
 import Feature from './Feature';
 
-const CountryCard = () => {
+interface CountryCardProps {
+	flag: string;
+	name: string;
+	population: number;
+	region: string;
+	capital: string;
+}
+
+const CountryCard: FC<CountryCardProps> = ({
+	flag,
+	name,
+	population,
+	region,
+	capital,
+}) => {
 	const { colorMode } = useColorMode();
 	const navigate = useNavigate();
 
