@@ -2,7 +2,18 @@ import { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from 'react-query';
-import { Box, Center, Grid, GridItem, Spinner, VStack } from '@chakra-ui/react';
+import {
+	Box,
+	Center,
+	Grid,
+	GridItem,
+	Spinner,
+	VStack,
+	Flex,
+	Button,
+	Text,
+} from '@chakra-ui/react';
+import { RepeatIcon } from '@chakra-ui/icons';
 import CountryCard from 'components/CountryCard';
 import SearchAndFilter from 'components/SearchAndFilter';
 
@@ -19,19 +30,26 @@ const Countries = () => {
 	const [query, setQuery] = useState<string>('');
 	const { ref, inView } = useInView();
 
-	const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
-		useInfiniteQuery(
-			['countries', query],
-			async ({ pageParam = 0 }) => {
-				const res = await axios.get(
-					'http://localhost:5000/api/countries?currPage=' + pageParam + query
-				);
-				return res.data;
-			},
-			{
-				getNextPageParam: lastPage => lastPage.nextId ?? undefined,
-			}
-		);
+	const {
+		data,
+		hasNextPage,
+		fetchNextPage,
+		isFetchingNextPage,
+		isLoading,
+		isError,
+		refetch,
+	} = useInfiniteQuery(
+		['countries', query],
+		async ({ pageParam = 0 }) => {
+			const res = await axios.get(
+				'http://localhost:5000/api/countries?currPage=' + pageParam + query
+			);
+			return res.data;
+		},
+		{
+			getNextPageParam: lastPage => lastPage.nextId ?? undefined,
+		}
+	);
 
 	useEffect(() => {
 		if (inView) {
@@ -45,9 +63,25 @@ const Countries = () => {
 			<SearchAndFilter {...{ query, setQuery }} />
 
 			{isLoading && (
-				<Center>
+				<Center h={250} w='100%'>
 					<Spinner />
 				</Center>
+			)}
+
+			{isError && (
+				<Flex
+					direction='column'
+					align='center'
+					justify='center'
+					gap={8}
+					h={250}
+					w='100%'>
+					<Text>There was an error, please try again</Text>
+
+					<Button onClick={() => refetch()}>
+						<RepeatIcon />
+					</Button>
+				</Flex>
 			)}
 
 			{data && (
