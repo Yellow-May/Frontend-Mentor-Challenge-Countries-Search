@@ -17,7 +17,7 @@ import { ArrowBackIcon, RepeatIcon } from '@chakra-ui/icons';
 import { useQuery } from 'react-query';
 import Feature from 'components/Feature';
 import { useLocation } from 'react-router';
-import axios from 'axios';
+import getCountry from 'apis/getCountry';
 
 const Country = () => {
 	const navigate = useNavigate();
@@ -25,10 +25,7 @@ const Country = () => {
 
 	const { isLoading, isError, data, refetch } = useQuery(
 		['country', name],
-		async () => {
-			const res = await axios.get(`http://localhost:5000/api/country${name}`);
-			return res.data;
-		}
+		async () => getCountry(name)
 	);
 
 	return (

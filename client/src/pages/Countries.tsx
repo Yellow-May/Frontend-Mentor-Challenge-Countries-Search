@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from 'react-query';
 import {
@@ -16,6 +15,7 @@ import {
 import { RepeatIcon } from '@chakra-ui/icons';
 import CountryCard from 'components/CountryCard';
 import SearchAndFilter from 'components/SearchAndFilter';
+import getCountries from 'apis/getCountries';
 
 interface CountryProps {
 	id: number;
@@ -40,12 +40,7 @@ const Countries = () => {
 		refetch,
 	} = useInfiniteQuery(
 		['countries', query],
-		async ({ pageParam = 0 }) => {
-			const res = await axios.get(
-				'http://localhost:5000/api/countries?currPage=' + pageParam + query
-			);
-			return res.data;
-		},
+		async ({ pageParam = 0 }) => getCountries(pageParam, query),
 		{
 			getNextPageParam: lastPage => lastPage.nextId ?? undefined,
 		}
