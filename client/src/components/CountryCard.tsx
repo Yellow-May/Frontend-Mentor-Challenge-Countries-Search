@@ -13,7 +13,7 @@ import Feature from './Feature';
 interface CountryCardProps {
 	flag: string;
 	name: string;
-	population: number;
+	population: string;
 	region: string;
 	capital: string;
 }
@@ -35,24 +35,20 @@ const CountryCard: FC<CountryCardProps> = ({
 			overflow='hidden'
 			shadow='lg'
 			cursor='pointer'
-			onClick={() => navigate('Konoha')}>
+			onClick={() => navigate(name)}>
 			<AspectRatio maxW='100%' ratio={5 / 3}>
-				<Image
-					src='https://bit.ly/naruto-sage'
-					alt='naruto'
-					objectFit='cover'
-				/>
+				<Image src={flag} alt={name} objectFit='cover' />
 			</AspectRatio>
 			<Box p={6} bg={colorMode === 'light' ? 'white' : 'custom_blue.100'}>
 				<VStack align='stretch' spacing={5} justify='center' h='100%'>
 					<Heading as='h2' size='md' noOfLines={1}>
-						Konoha
+						{name}
 					</Heading>
 
 					<VStack align='stretch'>
-						<Feature title='Population' desc='100,000,000' />
-						<Feature title='Region' desc='Americas' />
-						<Feature title='Capital' desc='Hidden Leaf' />
+						<Feature title='Population' desc={population} />
+						<Feature title='Region' desc={region} />
+						<Feature title='Capital' desc={capital} />
 					</VStack>
 				</VStack>
 			</Box>
