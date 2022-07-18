@@ -84,37 +84,34 @@ apiRouter.get('/countries', async (req, res) => {
 	}
 });
 
-// get countries by full name https://restcountries.com/v3.1/name/{name}?fullText=true
-apiRouter.get('/country/:name', async (req, res) => {
-	try {
-		const name = req.params.name;
-		const { data } = await axios.get(
-			`https://restcountries.com/v3.1/name/${name}?fullText=true`
-		);
-		const country = data.map(e => ({
-			name: e.name.official,
-			nativeName: e.name.nativeName[Object.keys(e?.languages)[0]].official,
-			flag: e.flags?.png,
-			population: e.population.toLocaleString(),
-			region: e.region,
-			subregion: e.subregion,
-			capital: e?.capital[0],
-			currencies: Object.keys(e?.currencies).map(
-				c => `${e.currencies[c]?.name} (${e.currencies[c]?.symbol})`
-			),
-			languages: Object.keys(e?.languages).map(c => e.languages[c]),
-			timezones: e?.timezones,
-			tld: e?.tld,
-			borders: e?.borders,
-		}))[0];
+// get countries by official name
+apiRouter.get('/country/:name', (req, res) => {
+	const name = req.params.name;
+	const data = ALL_COUNTRIES.find(e => e.name.official === name);
 
-		res.status(StatusCodes.OK).json(country);
-	} catch (error) {
-		console.error({ error });
-		res
-			.status(StatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: 'There was an error', error });
-	}
+	if (!data)
+		return res
+			.status(StatusCodes.NOT_FOUND)
+			.json({ message: 'Country not found' });
+
+	const country = {
+		name: data.name.official,
+		nativeName: data.name.nativeName[Object.keys(data?.languages)[0]].official,
+		flag: data.flags?.png,
+		population: data.population.toLocaleString(),
+		region: data.region,
+		subregion: data.subregion,
+		capital: data.capital[0],
+		currencies: Object.keys(data.currencies).map(
+			c => `${data.currencies[c]?.name} (${data.currencies[c]?.symbol})`
+		),
+		languages: Object.keys(data.languages).map(c => data.languages[c]),
+		timezones: data.timezones,
+		tld: data.tld,
+		borders: data.borders,
+	};
+
+	res.status(StatusCodes.OK).json(country);
 });
 
 module.exports = apiRouter;
