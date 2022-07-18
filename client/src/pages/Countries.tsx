@@ -79,7 +79,7 @@ const Countries = () => {
 				</Flex>
 			)}
 
-			{data && (
+			{data?.pages && (
 				<Box px={[5, 0]}>
 					<Grid
 						templateColumns={[
@@ -88,7 +88,7 @@ const Countries = () => {
 							'repeat(3, 1fr)',
 						]}
 						gap={16}>
-						{data.pages.map(page => (
+						{data?.pages?.map(page => (
 							<Fragment key={page.nextId}>
 								{page.countries.map((country: CountryProps) => (
 									<GridItem key={country.id}>
