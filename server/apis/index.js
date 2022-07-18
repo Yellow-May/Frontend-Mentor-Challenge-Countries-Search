@@ -59,13 +59,13 @@ apiRouter.get('/countries', async (req, res) => {
 
 		const section = countries
 			.slice(currPage, currPage + pageSize)
-			.map(country => ({
+			?.map(country => ({
 				id: country.id,
-				name: country.name.official,
+				name: country.name?.official,
 				flag: country.flags?.png,
-				population: country.population.toLocaleString(),
-				region: country.region,
-				capital: country?.capital[0],
+				population: country?.population.toLocaleString(),
+				region: country?.region,
+				capital: country?.capital,
 			}));
 
 		const nextId =
