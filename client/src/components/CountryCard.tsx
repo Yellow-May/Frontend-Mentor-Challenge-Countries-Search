@@ -11,11 +11,11 @@ import {
 import Feature from './Feature';
 
 interface CountryCardProps {
-	flag: string;
+	flag?: string;
 	name: string;
-	population: string;
-	region: string;
-	capital: string;
+	population?: string;
+	region?: string;
+	capital?: string;
 }
 
 const CountryCard: FC<CountryCardProps> = ({
@@ -46,9 +46,9 @@ const CountryCard: FC<CountryCardProps> = ({
 					</Heading>
 
 					<VStack align='stretch'>
-						<Feature title='Population' desc={population} />
-						<Feature title='Region' desc={region} />
-						<Feature title='Capital' desc={capital} />
+						{population && <Feature title='Population' desc={population} />}
+						{region && <Feature title='Region' desc={region} />}
+						{capital && <Feature title='Capital' desc={capital} />}
 					</VStack>
 				</VStack>
 			</Box>
