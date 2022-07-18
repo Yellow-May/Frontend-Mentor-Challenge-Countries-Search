@@ -7,21 +7,47 @@ import {
 	Spacer,
 	Select,
 } from '@chakra-ui/react';
-import { ChangeEventHandler, useRef } from 'react';
+import {
+	ChangeEventHandler,
+	useRef,
+	Dispatch,
+	SetStateAction,
+	FC,
+	useState,
+} from 'react';
 
-const filterOptions = ['Africa', 'America', 'Asia', 'Europe', 'Oceania'];
+interface SearchAndFilterProps {
+	query: string;
+	setQuery: Dispatch<SetStateAction<string>>;
+}
 
-const SearchAndFilter = () => {
+const filterOptions = ['africa', 'americas', 'asia', 'europe', 'oceania'];
+
+const SearchAndFilter: FC<SearchAndFilterProps> = ({ query, setQuery }) => {
+	const [searchQuery, setSearchQuery] = useState('');
+	const [filterQuery, setFilterQuery] = useState('');
 	const searchInput = useRef<HTMLInputElement | null>(null);
 
 	const handleSearch = () => {
 		const value = searchInput.current?.value;
-		console.log(value);
+		if (value) {
+			setSearchQuery(`&name=${value}`);
+			setQuery(`&name=${value}` + filterQuery);
+		} else {
+			setSearchQuery('');
+			setQuery('' + filterQuery);
+		}
 	};
 
 	const handleFilter: ChangeEventHandler<HTMLSelectElement> = e => {
 		const value = e.target.value;
-		console.log(value);
+		if (value) {
+			setFilterQuery(`&region=${value}`);
+			setQuery(searchQuery + `&region=${value}`);
+		} else {
+			setFilterQuery('');
+			setQuery(searchQuery + '');
+		}
 	};
 
 	return (
@@ -56,7 +82,10 @@ const SearchAndFilter = () => {
 				shadow='md'
 				onChange={handleFilter}>
 				{filterOptions.map(prop => (
-					<option key={prop} value={prop}>
+					<option
+						key={prop}
+						value={prop}
+						style={{ textTransform: 'capitalize' }}>
 						{prop}
 					</option>
 				))}
