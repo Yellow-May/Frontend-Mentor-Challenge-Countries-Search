@@ -23,5 +23,9 @@
 		"cors": "^2.8.5",
 		"express": "^4.17.3",
 		"http-status-codes": "^2.2.0"
+	},
+	"engines": {
+		"node": "16.x",
+		"yarn": "1.x"
 	}
 }
