@@ -7,7 +7,9 @@ let ALL_COUNTRIES = [];
 
 axios
 	.get(`${COUNTRIES_API_URL}/all`)
-	.then(res => (ALL_COUNTRIES = res.data.map((e, idx) => ({ ...e, id: idx }))))
+	.then(
+		res => (ALL_COUNTRIES = res.data.map((e, idx) => ({ ...e, id: idx + 1 })))
+	)
 	.catch(() => process.exit(1));
 
 // get all countries
@@ -53,7 +55,7 @@ apiRouter.get('/countries', async (req, res) => {
 		}
 
 		const currPage = parseInt(req.query.currPage) || 0;
-		const pageSize = 10;
+		const pageSize = 12;
 
 		const section = countries
 			.slice(currPage, currPage + pageSize)
@@ -68,12 +70,6 @@ apiRouter.get('/countries', async (req, res) => {
 
 		const nextId =
 			currPage < countries.length ? section[section.length - 1].id : null;
-		// console.log({
-		// 	currPage,
-		// 	nBits: countries.length,
-		// 	boo: currPage < countries.length,
-		// 	diff: countries.length - currPage,
-		// });
 
 		return res.status(StatusCodes.OK).json({ countries: section, nextId });
 	} catch (error) {
