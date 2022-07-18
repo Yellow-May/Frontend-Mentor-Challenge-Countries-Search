@@ -19,7 +19,7 @@ createRoot(document.getElementById('root') as HTMLElement).render(
 				</ChakraProvider>
 			</BrowserRouter>
 
-			<ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
+			<ReactQueryDevtools initialIsOpen={false} position='bottom-left' />
 		</QueryClientProvider>
 	</StrictMode>
 );
