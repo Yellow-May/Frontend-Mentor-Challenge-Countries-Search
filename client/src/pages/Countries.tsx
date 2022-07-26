@@ -16,6 +16,7 @@ import { RepeatIcon } from '@chakra-ui/icons';
 import CountryCard from 'components/CountryCard';
 import SearchAndFilter from 'components/SearchAndFilter';
 import getCountries from 'apis/getCountries';
+import BackToTop from 'components/BackToTop';
 
 interface CountryProps {
 	id: number;
@@ -100,6 +101,8 @@ const Countries = () => {
 					</Grid>
 				</Box>
 			)}
+
+			{data?.pages && <BackToTop />}
 
 			<Center>
 				<Spinner
